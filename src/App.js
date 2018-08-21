@@ -8,7 +8,12 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      username: ''
+      username: '',
+      items: [
+        {id: 1, title: 'First'},
+        {id: 2, title: 'Second'},
+        {id: 3, title: 'Third'},
+      ]
     };
   }
 
@@ -18,6 +23,14 @@ class App extends Component {
 
   handleChange = (state) => {
     this.setState({ ...state });   
+  }
+
+  addToDo = () => {
+    const id = this.state.items.length + 1;
+    this.state.items.push({id, title: `Added ${id}`})
+    this.setState({
+      items: this.state.items
+    })
   }
 
   render() {
@@ -31,10 +44,15 @@ class App extends Component {
             className="Username" 
             placeholder="username or username/repo" 
           />
+          <button onClick={this.addToDo}>Add todo</button>
           <GithubWidget
             onChange={this.handleChange} 
             username={this.state.username}
-          />
+            items={this.state.items}
+            renderItem={item => <div key={item.id}>{item.title}</div>}
+          >
+            <p>Hello world</p>
+          </GithubWidget>
         </header>
       </div>
     );

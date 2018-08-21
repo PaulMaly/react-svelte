@@ -7,10 +7,16 @@ export default class extends PureComponent {
   componentDidMount() {
 
     const { username } = this.props;
+
+    console.log(this.props.children);
     
     this.widget = new Widget({
       target: this.el,
-      data: { username }
+      data: { username },
+      slots: {
+        default: this.slot,
+        todo: this.todo
+      }
     });
 
     this.widget.on('state', ({ current: { username }, changed }) => {
@@ -30,7 +36,15 @@ export default class extends PureComponent {
   
   render() {
     return (
-      <div ref={el => this.el = el}></div>
+      <div ref={el => this.el = el}>
+        <div ref={el => this.slot = el}>
+          {this.props.children}
+        </div>
+        <div ref={el => this.todo = el} className="todo">
+          <h2>{this.props.title}</h2>
+          {this.props.items.map(item => this.props.renderItem(item))}
+        </div>
+      </div>
     );
   }
 }

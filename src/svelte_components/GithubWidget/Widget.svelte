@@ -2,6 +2,8 @@
 <input bind:value=username placeholder="username or username/repo">
 {/if}
 
+<slot></slot>
+
 <div class="card">
 {#await card}
 	<Spinner size="50" speed="750" color="#38b0ee" thickness="2" gap="40" />
@@ -13,6 +15,8 @@
 	<Error {...error} />
 {/await}
 </div>
+
+<slot name="todo"></slot>
 
 <script>
 	import debounce from 'debounce-promise';
